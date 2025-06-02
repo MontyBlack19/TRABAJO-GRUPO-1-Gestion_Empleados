@@ -6,6 +6,8 @@ using Gestion_Empleados.Operations;
 
 TipoEmpleadoDAO opTipoEmpleado = new TipoEmpleadoDAO();
 
+TurnoDAO opTurno = new TurnoDAO();
+
 //opTipoEmpleado.insertar("Administrador");
 
 //opTipoEmpleado.actualizar(7, "Logistica");
@@ -42,18 +44,13 @@ foreach (EmpleadoTipo empleadoTipo in empletipo)
     Console.WriteLine(empleadoTipo.NombreEmpleado + " => " + empleadoTipo.NombreTipo);
 }
 
-Console.WriteLine("********************************************");
+Console.WriteLine("*******************TURNO*************************");
 
-static void MostrarTurnos(TurnoDAO dao)
+List<Turno> turnos = opTurno.seleccionarTodos();
+
+foreach (var turno in turnos)
 {
-    List<Turno> turnos = dao.seleccionarTodos();
-
-    Console.WriteLine("=== Lista de Turnos ===");
-    foreach (var turno in turnos)
-    {
-        Console.WriteLine($"Nombre: {turno.Nombre}, Entrada: {turno.HoraEntrada}, Salida: {turno.HoraSalida}");
-    }
-
-    Console.WriteLine("Presione una tecla para continuar...");
-    Console.ReadKey();
+    Console.WriteLine($"Nombre: {turno.Nombre}, Entrada: {turno.HoraEntrada}, Salida: {turno.HoraSalida}");
 }
+
+
