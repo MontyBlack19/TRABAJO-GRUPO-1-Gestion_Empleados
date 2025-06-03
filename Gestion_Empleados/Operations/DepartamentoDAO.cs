@@ -37,14 +37,14 @@ namespace Gestion_Empleados.Operations
 
                 return true;
             }
-            catch (Exception ex) { 
+            catch (Exception ex) {
                 Console.WriteLine(ex.ToString());
                 return false;
             }
-            
+
         }
 
-        public bool actualizar(int id,string nombre) {
+        public bool actualizar(int id, string nombre) {
             try
             {
                 var acdep = listarId(id);
@@ -110,5 +110,44 @@ namespace Gestion_Empleados.Operations
 
             return query.ToList();
         }
+
+
+        //Para el controller ----------------------------------------------
+
+        public bool eliminarDepartamento(int id)
+        {
+            try
+            {
+                var dep = listarId(id);
+
+                if (dep != null)
+                {
+                    var empleado = context.Empleados.Where(e => e.IdDepartamento == id);
+                    foreach (Empleado e in empleado)
+                    {
+                        if (e.IdDepartamento == id)
+                        {
+                            e.IdDepartamento = 1;
+                        }
+                    }
+                    context.SaveChanges();
+                    context.Departamentos.RemoveRange(dep);
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+        }
+
+
     }
 }
