@@ -26,6 +26,13 @@ namespace Gestion_Empleados.Operations
             return tipoempleado;
         }
 
+        public TipoEmpleado seleccionarTipoEmpleadoPorNombre(string nombre)
+        {
+            var tipoempleado = contexto.TipoEmpleados.Where(t => t.NombreTipo.Equals(nombre)).FirstOrDefault();
+
+            return tipoempleado;
+        }
+
         public bool insertar(string nombretipo)
         {
             try
