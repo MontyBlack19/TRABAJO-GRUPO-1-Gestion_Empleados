@@ -13,15 +13,15 @@ public partial class Vacacione
 
     public DateOnly FechaFin { get; set; }
 
-    public int? AprobadoPor { get; set; }
+    public int AprobadoPor { get; set; }
 
-    public DateTime? FechaAprobacion { get; set; }
+    public DateTime FechaAprobacion { get; set; }
 
     public int CreadoPor { get; set; }
 
     public virtual Usuario? AprobadoPorNavigation { get; set; }
 
-    public virtual Usuario CreadoPorNavigation { get; set; } = null!;
+    public virtual Usuario? CreadoPorNavigation { get; set; } = null!;
 
-    public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
+    public virtual Empleado? IdEmpleadoNavigation { get; set; } = null!;
 }
