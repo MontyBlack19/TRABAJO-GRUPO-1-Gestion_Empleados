@@ -9,9 +9,9 @@ public partial class Vacacione
 
     public int IdEmpleado { get; set; }
 
-    public DateOnly FechaInicio { get; set; }
+    public DateTime FechaInicio { get; set; }
 
-    public DateOnly FechaFin { get; set; }
+    public DateTime FechaFin { get; set; }
 
     public int AprobadoPor { get; set; }
 

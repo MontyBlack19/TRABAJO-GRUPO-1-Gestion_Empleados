@@ -26,7 +26,7 @@ namespace Gestion_Empleados.Operations
             return vacaciones;
         }
 
-        public bool insertar(int idEmpleado, DateOnly fechaInicio, DateOnly fechaFin, int aprobacion, DateTime fechaAprobacion, int creacion)
+        public bool insertar(int idEmpleado, DateTime fechaInicio, DateTime fechaFin, int aprobacion, DateTime fechaAprobacion, int creacion)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace Gestion_Empleados.Operations
             }
         }
 
-        public bool actualizar(int id, int idEmpleado, DateOnly fechaInicio, DateOnly fechaFin, int aprobacion, DateTime fechaAprobacion, int creacion)
+        public bool actualizar(int id, int idEmpleado, DateTime fechaInicio, DateTime fechaFin, int aprobacion, DateTime fechaAprobacion, int creacion)
         {
             try
             {
@@ -77,6 +77,7 @@ namespace Gestion_Empleados.Operations
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
