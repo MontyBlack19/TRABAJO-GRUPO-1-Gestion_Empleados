@@ -13,6 +13,15 @@ namespace Gestion_Empleados.Operations
         public GestionEmpleados3Context context = new GestionEmpleados3Context();
 
         //GET
+        public Usuario login(string user, string password)
+        {   
+
+                var usuario = context.Usuarios.Where(u => u.Username == user && u.PasswordHash == password).FirstOrDefault();
+                return usuario;
+
+        }
+
+        //GET
         public List<Usuario> listar()
         {
             var usuario = context.Usuarios.ToList<Usuario>();

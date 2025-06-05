@@ -11,6 +11,21 @@ namespace Web_App.Controllers
     {
         private UsuarioDAO usuariodao = new UsuarioDAO();
 
+        [HttpGet("IniciarSesion")]
+        public string logins([FromBody]Usuario u)
+        {
+             var inicio = usuariodao.login(u.Username, u.PasswordHash);
+            if (inicio != null)
+            {
+                return inicio.Username;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+
         [HttpGet("ListarUsuarios")]
         public List<Usuario> mostrarUsuarios()
         {
