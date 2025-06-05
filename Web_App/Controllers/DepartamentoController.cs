@@ -12,9 +12,9 @@ namespace Web_App.Controllers
         private DepartamentoDAO departamentoDao = new DepartamentoDAO();
 
         [HttpGet("ListarDepartamento")]
-        public Departamento mostrarDepartamento(int id)
+        public List<Departamento> mostrarDepartamento()
         {
-            return departamentoDao.listarId(id);
+            return departamentoDao.listar();
         }
 
         [HttpDelete("EliminarDepartamento")]

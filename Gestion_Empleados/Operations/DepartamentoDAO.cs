@@ -129,6 +129,10 @@ namespace Gestion_Empleados.Operations
                         {
                             e.IdDepartamento = 1;
                         }
+                        else
+                        {
+                            eliminar(id);
+                        }
                     }
                     context.SaveChanges();
                     context.Departamentos.RemoveRange(dep);
