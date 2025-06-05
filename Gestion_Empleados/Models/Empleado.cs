@@ -42,4 +42,5 @@ public partial class Empleado
     public virtual ICollection<Justificacion>? Justificacions { get; set; } = new List<Justificacion>();
 
     public virtual ICollection<Vacacione>? Vacaciones { get; set; } = new List<Vacacione>();
+
 }
