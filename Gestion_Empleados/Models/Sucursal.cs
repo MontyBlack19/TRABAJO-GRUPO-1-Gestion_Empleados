@@ -13,5 +13,5 @@ public partial class Sucursal
 
     public string? Telefono { get; set; }
 
-    public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
+    public virtual ICollection<Empleado>? Empleados { get; set; } = new List<Empleado>();
 }
