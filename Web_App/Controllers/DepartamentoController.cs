@@ -23,7 +23,7 @@ namespace Web_App.Controllers
             return departamentoDao.eliminarDepartamento(id);
         }
 
-        [HttpPut("ActualizarDepartamento")]
+        [HttpPost("ActualizarDepartamento")]
         public bool actualizarDepartamento([FromBody]Departamento d)
         {
             return departamentoDao.actualizar(d.IdDepartamento, d.Nombre);
