@@ -15,7 +15,7 @@ public partial class Empleado
 
     public string? Telefono { get; set; }
 
-    public DateOnly? FechaIngreso { get; set; }
+    public DateTime FechaIngreso { get; set; }
 
     public int IdTipo { get; set; }
 
@@ -27,19 +27,19 @@ public partial class Empleado
 
     public bool? Activo { get; set; }
 
-    public virtual ICollection<Asistencium> Asistencia { get; set; } = new List<Asistencium>();
+    public virtual ICollection<Asistencium>? Asistencia { get; set; } = new List<Asistencium>();
 
-    public virtual ICollection<HistorialEmpleado> HistorialEmpleados { get; set; } = new List<HistorialEmpleado>();
+    public virtual ICollection<HistorialEmpleado>? HistorialEmpleados { get; set; } = new List<HistorialEmpleado>();
 
-    public virtual Departamento IdDepartamentoNavigation { get; set; } = null!;
+    public virtual Departamento? IdDepartamentoNavigation { get; set; } = null!;
 
-    public virtual Sucursal IdSucursalNavigation { get; set; } = null!;
+    public virtual Sucursal? IdSucursalNavigation { get; set; } = null;
 
-    public virtual TipoEmpleado IdTipoNavigation { get; set; } = null!;
+    public virtual TipoEmpleado? IdTipoNavigation { get; set; } = null;
 
-    public virtual Turno IdTurnoNavigation { get; set; } = null!;
+    public virtual Turno? IdTurnoNavigation { get; set; } = null!;
 
-    public virtual ICollection<Justificacion> Justificacions { get; set; } = new List<Justificacion>();
+    public virtual ICollection<Justificacion>? Justificacions { get; set; } = new List<Justificacion>();
 
-    public virtual ICollection<Vacacione> Vacaciones { get; set; } = new List<Vacacione>();
+    public virtual ICollection<Vacacione>? Vacaciones { get; set; } = new List<Vacacione>();
 }
