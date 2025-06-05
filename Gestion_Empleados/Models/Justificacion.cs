@@ -9,19 +9,19 @@ public partial class Justificacion
 
     public int IdEmpleado { get; set; }
 
-    public DateOnly Fecha { get; set; }
+    public DateTime Fecha { get; set; }
 
     public string Motivo { get; set; } = null!;
 
-    public int? AprobadoPor { get; set; }
+    public int AprobadoPor { get; set; }
 
-    public DateTime? FechaAprobacion { get; set; }
+    public DateTime FechaAprobacion { get; set; }
 
     public int CreadoPor { get; set; }
 
     public virtual Usuario? AprobadoPorNavigation { get; set; }
 
-    public virtual Usuario CreadoPorNavigation { get; set; } = null!;
+    public virtual Usuario? CreadoPorNavigation { get; set; } = null;
 
-    public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
+    public virtual Empleado? IdEmpleadoNavigation { get; set; } = null;
 }
