@@ -1,11 +1,10 @@
 ﻿using Gestion_Empleados.Models;
 using Gestion_Empleados.Operations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api")]
+    [Route("api/")]
     [ApiController]
     public class AsistenciaController : ControllerBase
     {

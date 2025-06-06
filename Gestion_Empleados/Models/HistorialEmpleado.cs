@@ -19,7 +19,7 @@ public partial class HistorialEmpleado
 
     public int ModificadoPor { get; set; }
 
-    public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
+    public virtual Empleado? IdEmpleadoNavigation { get; set; } 
 
-    public virtual Usuario ModificadoPorNavigation { get; set; } = null!;
+    public virtual Usuario? ModificadoPorNavigation { get; set; } 
 }

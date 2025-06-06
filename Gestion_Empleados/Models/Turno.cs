@@ -13,5 +13,5 @@ public partial class Turno
 
     public TimeOnly HoraSalida { get; set; }
 
-    public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
+    public virtual ICollection<Empleado>? Empleados { get; set; } = new List<Empleado>();
 }

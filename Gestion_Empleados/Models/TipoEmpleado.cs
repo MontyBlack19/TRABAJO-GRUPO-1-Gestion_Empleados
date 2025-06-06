@@ -9,5 +9,5 @@ public partial class TipoEmpleado
 
     public string NombreTipo { get; set; } = null!;
 
-    public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
+    public virtual ICollection<Empleado>? Empleados { get; set; } = new List<Empleado>();
 }

@@ -9,5 +9,5 @@ public partial class Departamento
 
     public string Nombre { get; set; } = null!;
 
-    public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
+    public virtual ICollection<Empleado>? Empleados { get; set; } = new List<Empleado>();
 }

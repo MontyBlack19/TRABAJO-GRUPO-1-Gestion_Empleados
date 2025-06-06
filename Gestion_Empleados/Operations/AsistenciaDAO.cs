@@ -1,10 +1,5 @@
 ﻿using Gestion_Empleados.Context;
 using Gestion_Empleados.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gestion_Empleados.Operations
 {
@@ -30,31 +25,36 @@ namespace Gestion_Empleados.Operations
                 contexto.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
+
 
         public bool Actualizar(Asistencium asistencia)
         {
             try
             {
-                var existente = SeleccionarPorId(asistencia.IdAsistencia);
-                if (existente == null) return false;
+                var existente = contexto.Asistencia.FirstOrDefault(a => a.IdAsistencia == asistencia.IdAsistencia);
 
-                existente.IdEmpleado = asistencia.IdEmpleado;
+                if (existente == null)
+                    return false; 
+
                 existente.Fecha = asistencia.Fecha;
                 existente.HoraEntrada = asistencia.HoraEntrada;
                 existente.HoraSalida = asistencia.HoraSalida;
                 existente.Justificada = asistencia.Justificada;
+                existente.IdEmpleado = asistencia.IdEmpleado;
                 existente.CreadoPor = asistencia.CreadoPor;
 
                 contexto.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Error al actualizar asistencia: " + ex.Message);
                 return false;
             }
         }
@@ -77,4 +77,3 @@ namespace Gestion_Empleados.Operations
         }
     }
 }
-

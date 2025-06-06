@@ -9,13 +9,13 @@ public partial class Justificacion
 
     public int IdEmpleado { get; set; }
 
-    public DateOnly Fecha { get; set; }
+    public DateTime Fecha { get; set; }
 
     public string Motivo { get; set; } = null!;
 
-    public int? AprobadoPor { get; set; }
+    public int AprobadoPor { get; set; }
 
-    public DateTime? FechaAprobacion { get; set; }
+    public DateTime FechaAprobacion { get; set; }
 
     public int CreadoPor { get; set; }
 
