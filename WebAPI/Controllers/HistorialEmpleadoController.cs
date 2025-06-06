@@ -42,7 +42,7 @@ namespace Web_App.Controllers
         }
 
         [HttpPut("ActualizarHistorialEmpleado")]
-        public bool actualizarHistorial([FromBody]HistorialEmpleado historial, int idHistorial)
+        public bool actualizarHistorial([FromBody]HistorialEmpleado historial)
         {
             return historialEmpleadoDao.actualizar(
                     historial.IdHistorial,
@@ -50,6 +50,7 @@ namespace Web_App.Controllers
                     historial.CampoModificado,
                     historial.ValorAnterior,
                     historial.ValorNuevo,
+                    historial.FechaModificacion,
                     historial.ModificadoPor
                 );
         }

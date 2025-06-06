@@ -62,7 +62,7 @@ namespace Gestion_Empleados.Operations
 
         }
 
-        public bool actualizar(int idHistorial, int idEmpleado, string campo, string valorA, string valorB, int modificado)
+        public bool actualizar(int idHistorial, int idEmpleado, string campo, string valorA, string valorB, DateTime fecha, int modificado)
         {
             try
             {
@@ -79,6 +79,7 @@ namespace Gestion_Empleados.Operations
                     empleado.CampoModificado = campo;
                     empleado.ValorAnterior = valorA;
                     empleado.ValorNuevo = valorB;
+                    empleado.FechaModificacion = fecha;
                     empleado.ModificadoPor = modificado;
 
                     context.SaveChanges();

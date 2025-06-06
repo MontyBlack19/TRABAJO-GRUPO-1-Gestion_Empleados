@@ -9,9 +9,9 @@ public partial class Asistencium
 
     public int IdEmpleado { get; set; }
 
-    public DateOnly Fecha { get; set; }
+    public DateTime Fecha { get; set; }
 
-    public TimeOnly? HoraEntrada { get; set; }
+    public TimeOnly  HoraEntrada { get; set; }
 
     public TimeOnly? HoraSalida { get; set; }
 

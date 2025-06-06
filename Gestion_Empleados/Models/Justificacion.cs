@@ -21,7 +21,7 @@ public partial class Justificacion
 
     public virtual Usuario? AprobadoPorNavigation { get; set; }
 
-    public virtual Usuario CreadoPorNavigation { get; set; } = null!;
+    public virtual Usuario? CreadoPorNavigation { get; set; } = null;
 
-    public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
+    public virtual Empleado? IdEmpleadoNavigation { get; set; } = null;
 }
