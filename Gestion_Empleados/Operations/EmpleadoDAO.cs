@@ -25,13 +25,12 @@ namespace Gestion_Empleados.Operations
 
             return empleado;
         }
-        public bool insertar(int idempleado, string nombre, string apellido, string correo, string telefono, DateTime fechaIngreso, int idTipo, int idDepartamento, int idTurno, int idSucursal)
+        public bool insertar(string nombre, string apellido, string correo, string telefono, DateTime fechaIngreso, int idTipo, int idDepartamento, int idTurno, int idSucursal)
         {
             try
             {
                 Empleado empleado = new Empleado();
-
-                empleado.IdEmpleado = idempleado;
+                
                 empleado.Nombre = nombre;
                 empleado.Apellido = apellido;
                 empleado.Correo = correo;

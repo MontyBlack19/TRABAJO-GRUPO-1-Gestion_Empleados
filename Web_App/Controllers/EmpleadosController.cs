@@ -39,7 +39,6 @@ namespace Web_App.Controllers
         public bool insertarEmpleado([FromBody] Empleado empleado)
         {
             return empleadoDAO.insertar(
-                empleado.IdEmpleado,
                 empleado.Nombre,
                 empleado.Apellido,
                 empleado.Correo,
