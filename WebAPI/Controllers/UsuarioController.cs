@@ -11,7 +11,7 @@ namespace Web_App.Controllers
     {
         private UsuarioDAO usuariodao = new UsuarioDAO();
 
-        [HttpGet("IniciarSesion")]
+        [HttpPost("IniciarSesion")]
         public string logins([FromBody]Usuario u)
         {
              var inicio = usuariodao.login(u.Username, u.PasswordHash);
