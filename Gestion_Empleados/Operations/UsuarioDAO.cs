@@ -1,4 +1,5 @@
-﻿using Gestion_Empleados.Context;
+﻿using AccesoDatos.plugins;
+using Gestion_Empleados.Context;
 using Gestion_Empleados.Models;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace Gestion_Empleados.Operations
         public GestionEmpleados3Context context = new GestionEmpleados3Context();
 
         //GET
-        public Usuario login(string user, string password)
-        {   
+        public Usuario login(string usuario, string password)
+        {
+            string passwordHash = HashUtil.ObtenerMD5(password);
 
-                var usuario = context.Usuarios.Where(u => u.Username == user && u.PasswordHash == password).FirstOrDefault();
-                return usuario;
-
+            var user = context.Usuarios.Where(a => a.Username.Equals(usuario) && a.PasswordHash.Equals(passwordHash)).FirstOrDefault();
+            return user;
         }
 
         //GET
@@ -35,26 +36,29 @@ namespace Gestion_Empleados.Operations
         }
 
         //POST
-        public bool insertar(string userName)
+        public bool registrar(Usuario newUsuario)
         {
+            bool exist = context.Usuarios.Any(p => p.Username == newUsuario.Username);
             try
             {
-                Usuario usuario = new Usuario();
-                usuario.Username = userName;
-                usuario.PasswordHash = "hashed_password_"+userName;
-                usuario.Activo = true;
+                if (exist)
+                {
+                    return false;
+                }
+                else
+                {
+                    newUsuario.PasswordHash = HashUtil.ObtenerMD5(newUsuario.PasswordHash);
+                    context.Usuarios.Add(newUsuario);
+                    context.SaveChanges();
+                    return true;
+                }
 
-                context.Usuarios.Add(usuario);
-                context.SaveChanges();
-
-                return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(e);
                 return false;
             }
-
         }
 
         //PUT

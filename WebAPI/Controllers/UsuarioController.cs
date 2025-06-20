@@ -2,6 +2,8 @@
 using Gestion_Empleados.Operations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.DTOs;
+using WebAPI.Services;
 
 namespace Web_App.Controllers
 {
@@ -9,22 +11,30 @@ namespace Web_App.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private UsuarioDAO usuariodao = new UsuarioDAO();
+        private readonly UsuarioService _usuarioService;
+
+        public UsuarioController(UsuarioService usuarioService)
+        {
+            _usuarioService = usuarioService;
+        }
 
         [HttpPost("IniciarSesion")]
-        public string logins([FromBody]Usuario u)
+        public IActionResult login([FromBody]loginDTO loginDTO)
         {
-             var inicio = usuariodao.login(u.Username, u.PasswordHash);
-            if (inicio != null)
+             var usuario = _usuarioService.login(loginDTO);
+
+            if (usuario != null)
             {
-                return inicio.Username;
+                return Ok(new { usuario });
             }
             else
             {
-                return null;
+                return Unauthorized(new {mensaje = "Usuario o Contraseña incorrecto.s"});
             }
             
         }
+
+        private UsuarioDAO usuariodao = new UsuarioDAO();
 
         [HttpGet("ListarUsuarios")]
         public List<Usuario> mostrarUsuarios()
@@ -45,9 +55,24 @@ namespace Web_App.Controllers
         }
 
         [HttpPost("InsertarUsuario")]
-        public bool insertarUsuario(string user)
+        public IActionResult registrar([FromBody] UsuarioRegistroDTO usuarioRegistroDTO)
         {
-            return usuariodao.insertar(user);
+            if (usuarioRegistroDTO == null ||
+                string.IsNullOrWhiteSpace(usuarioRegistroDTO.Username) || string.IsNullOrWhiteSpace(usuarioRegistroDTO.PasswordHash))
+            {
+                return BadRequest(new { mensaje = "Datos incompletos" });
+            }
+
+            bool registrado = _usuarioService.registrar(usuarioRegistroDTO);
+            if (registrado)
+            {
+                return Ok(new { mensaje = "Usuario registrado correctamente" });
+            }
+            else
+            {
+                return BadRequest(new { mensaje = "Error al registrar al Usuarios" });
+
+            }
         }
     }
 }
