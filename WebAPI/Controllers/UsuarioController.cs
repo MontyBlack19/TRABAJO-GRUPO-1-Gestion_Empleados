@@ -19,19 +19,19 @@ namespace Web_App.Controllers
         }
 
         [HttpPost("IniciarSesion")]
-        public IActionResult login([FromBody]loginDTO loginDTO)
+        public IActionResult login([FromBody] loginDTO loginDTO)
         {
-             var usuario = _usuarioService.login(loginDTO);
+            var usuario = _usuarioService.login(loginDTO);
 
             if (usuario != null)
             {
-                return Ok(new { usuario });
+                var token = _usuarioService.GenerarToken(usuario); //genera token y se envía al usuario
+                return Ok(new { token, usuario = usuario.Username });
             }
             else
             {
-                return Unauthorized(new {mensaje = "Usuario o Contraseña incorrecto.s"});
+                return Unauthorized(new { mensaje = "Usuario o Contraseña incorrectos" });
             }
-            
         }
 
         private UsuarioDAO usuariodao = new UsuarioDAO();
