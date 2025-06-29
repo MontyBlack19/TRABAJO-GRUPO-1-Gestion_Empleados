@@ -2,6 +2,8 @@
 using Gestion_Empleados.Operations;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using WebAPI.DTOs;
@@ -45,6 +47,43 @@ namespace WebAPI.Services
             var token = tokenHandler.CreateToken(tokenDescriptor); //crea en memoria
             return tokenHandler.WriteToken(token); //convierte cadena y envía al front
         }
+
+        public void EnviarCorreoCredenciales(string correoDestino, string asunto, string cuerpo, bool esHtml)
+        {
+            var emailSettings = _configuration.GetSection("EmailSettings");
+
+            var remitente = emailSettings["From"];
+            var smtpServer = emailSettings["SmtpServer"];
+            var puerto = int.Parse(emailSettings["Port"]);
+            var usuarioSMTP = emailSettings["Username"];
+            var passwordSMTP = emailSettings["Password"];
+
+            var mensaje = new MailMessage
+            {
+                From = new MailAddress(remitente, "Sistema de RR.HH."),
+                Subject = asunto,
+                Body = cuerpo,
+                IsBodyHtml = esHtml
+            };
+
+            mensaje.To.Add(correoDestino);
+
+            using var smtp = new SmtpClient(smtpServer, puerto)
+            {
+                Credentials = new NetworkCredential(usuarioSMTP, passwordSMTP),
+                EnableSsl = true
+            };
+
+            try
+            {
+                smtp.Send(mensaje);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine("Error al enviar correo: " + ex.Message);
+            }
+        }
+
         public bool registrar(UsuarioRegistroDTO usuarioRegistroDTO)
         {
             var usuario = new Usuario
@@ -53,7 +92,47 @@ namespace WebAPI.Services
                 PasswordHash = usuarioRegistroDTO.PasswordHash,
                 Activo = usuarioRegistroDTO.Activo
             };
-            return _usuarioDAO.registrar(usuario);
+
+            bool registrado = _usuarioDAO.registrar(usuario);
+
+            if (registrado)
+            {
+                string asunto = "Credenciales de acceso al sistema";
+                string mensaje = $@"
+                <html>
+                  <body style='margin:0; padding:0;'>
+                    <div style='
+                      background-image: url(https://slidevilla.com/wp-content/uploads/edd/2019/04/81ae87aab174dc8622a30bada3ac2747-1.jpg);
+                      background-size: cover;
+                      background-repeat: no-repeat;
+                      background-position: center;
+                      width: 100%;
+                      height: 100vh;
+                      padding: 40px;
+                      box-sizing: border-box;
+                      font-family: Arial, sans-serif;
+                      color: #ffffff;
+                    '>
+                      <div style='
+                        background-color: rgba(0, 0, 0, 0.6);
+                        padding: 30px;
+                        border-radius: 10px;
+                        max-width: 500px;
+                        margin: auto;
+                      '>
+                        <h2 style='margin-top: 0; color: #90CAF9;'>Bienvenido al sistema de RR.HH.</h2>
+                        <p>Tu cuenta ha sido creada exitosamente.</p>
+                        <p><strong>Usuario:</strong> {usuario.Username}</p>
+                        <p><strong>Contraseña:</strong> {usuarioRegistroDTO.PasswordHash}</p>
+                        <p style='color: #FFEB3B;'>Por favor, cambia tu contraseña al iniciar sesión.</p>
+                      </div>
+                    </div>
+                  </body>
+                </html>";
+                EnviarCorreoCredenciales(usuarioRegistroDTO.Correo, asunto, mensaje, true);
+            }
+
+            return registrado;
         }
 
         public bool actualizar(ActualizarUsuarioDTO auDTO)

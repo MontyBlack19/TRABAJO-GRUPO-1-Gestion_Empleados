@@ -9,5 +9,7 @@ namespace WebAPI.DTOs
         [Required(ErrorMessage = "Contraseña obligatorio")]
         public string PasswordHash { get; set; }
         public bool Activo { get; set; }
+        public string Correo { get; set; } = string.Empty;
+
     }
 }
