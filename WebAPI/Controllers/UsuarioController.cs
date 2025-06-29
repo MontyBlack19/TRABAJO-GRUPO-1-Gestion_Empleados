@@ -49,9 +49,9 @@ namespace Web_App.Controllers
         }
 
         [HttpPatch("ActualizarUsuario")]
-        public IActionResult actualizarUsuario(string username, string passwordActual, string passwordNueva)
+        public IActionResult actualizarUsuario([FromBody] ActualizarUsuarioDTO datos)
         {
-            bool hecho = usuariodao.actualizar(username, passwordActual, passwordNueva);
+            bool hecho = usuariodao.actualizar(datos.Username, datos.PasswordActual, datos.PasswordNueva);
 
             if (hecho)
             {
@@ -61,7 +61,6 @@ namespace Web_App.Controllers
             {
                 return BadRequest(new { exito = false, mensaje = "Error al actualizar la Contraseña" });
             }
-                
         }
 
         [HttpPost("InsertarUsuario")]
