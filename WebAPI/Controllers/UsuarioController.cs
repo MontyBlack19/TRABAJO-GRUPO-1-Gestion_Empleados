@@ -26,11 +26,11 @@ namespace Web_App.Controllers
             if (usuario != null)
             {
                 var token = _usuarioService.GenerarToken(usuario); //genera token y se envía al usuario
-                return Ok(new { token, usuario = usuario.Username });
+                return Ok(new {exito = true, token, usuario = usuario.Username });
             }
             else
             {
-                return Unauthorized(new { mensaje = "Usuario o Contraseña incorrectos" });
+                return Unauthorized(new {exito = false, mensaje = "Usuario o Contraseña incorrectos" });
             }
         }
 
@@ -48,29 +48,39 @@ namespace Web_App.Controllers
             return usuariodao.eliminar(id);
         }
 
-        [HttpPut("ActualizarUsuario")]
-        public bool actualizarUsuario(int id, bool activo)
+        [HttpPatch("ActualizarUsuario")]
+        public IActionResult actualizarUsuario(string username, string passwordActual, string passwordNueva)
         {
-            return usuariodao.actualizar(id, activo);
+            bool hecho = usuariodao.actualizar(username, passwordActual, passwordNueva);
+
+            if (hecho)
+            {
+                return Ok(new { exito = true, mensaje = "Contraseña actualizada correctamente" });
+            }
+            else
+            {
+                return BadRequest(new { exito = false, mensaje = "Error al actualizar la Contraseña" });
+            }
+                
         }
 
         [HttpPost("InsertarUsuario")]
         public IActionResult registrar([FromBody] UsuarioRegistroDTO usuarioRegistroDTO)
         {
-            if (usuarioRegistroDTO == null ||
-                string.IsNullOrWhiteSpace(usuarioRegistroDTO.Username) || string.IsNullOrWhiteSpace(usuarioRegistroDTO.PasswordHash))
-            {
-                return BadRequest(new { mensaje = "Datos incompletos" });
-            }
+            //if (usuarioRegistroDTO == null ||
+            //    string.IsNullOrWhiteSpace(usuarioRegistroDTO.Username) || string.IsNullOrWhiteSpace(usuarioRegistroDTO.PasswordHash))
+            //{
+            //    return BadRequest(new { mensaje = "Datos incompletos" });
+            //}
 
             bool registrado = _usuarioService.registrar(usuarioRegistroDTO);
             if (registrado)
             {
-                return Ok(new { mensaje = "Usuario registrado correctamente" });
+                return Ok(new {exito = true, mensaje = "Usuario registrado correctamente" });
             }
             else
             {
-                return BadRequest(new { mensaje = "Error al registrar al Usuarios" });
+                return BadRequest(new {exito = false, mensaje = "Error al registrar al Usuario" });
 
             }
         }
