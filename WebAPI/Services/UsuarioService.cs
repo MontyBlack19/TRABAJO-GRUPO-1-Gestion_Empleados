@@ -55,5 +55,15 @@ namespace WebAPI.Services
             };
             return _usuarioDAO.registrar(usuario);
         }
+
+        public bool actualizar(ActualizarUsuarioDTO auDTO)
+        {
+            var usuario = _usuarioDAO.login(auDTO.Username, auDTO.PasswordActual);
+            if (usuario == null)
+            {
+                return false;
+            }
+            return _usuarioDAO.actualizar(auDTO.Username, auDTO.PasswordActual ,auDTO.PasswordNueva);
+        }
     }
 }

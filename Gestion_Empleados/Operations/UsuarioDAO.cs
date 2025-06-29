@@ -48,6 +48,7 @@ namespace Gestion_Empleados.Operations
                 else
                 {
                     newUsuario.PasswordHash = HashUtil.ObtenerMD5(newUsuario.PasswordHash);
+                    newUsuario.Activo = true;
                     context.Usuarios.Add(newUsuario);
                     context.SaveChanges();
                     return true;
@@ -63,23 +64,21 @@ namespace Gestion_Empleados.Operations
 
         //PUT
         //Se actualiza el estado del usuario
-        public bool actualizar(int id, bool activo)
+        public bool actualizar(string usuario, string passworActual, string passwordNuevo)
         {
             try
             {
-                var userId = listarId(id);
+                var sesion = context.Usuarios.FirstOrDefault(e => e.Username == usuario);
 
-                if (userId == null)
+                if (sesion == null)
                 {
                     return false;
                 }
                 else
                 {
-                    userId.IdUsuario = id;
-                    userId.Activo = activo;
-
+                    sesion.PasswordHash = HashUtil.ObtenerMD5(passwordNuevo); ;
                     context.SaveChanges();
-                    return true;
+                    return true;    
                 }
             }
             catch (Exception ex)
