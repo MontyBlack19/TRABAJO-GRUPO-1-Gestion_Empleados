@@ -2,7 +2,9 @@
 using Gestion_Empleados.Operations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Services;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using WebAPI.DTOs;
 
 namespace Web_App.Controllers
 {
@@ -10,48 +12,53 @@ namespace Web_App.Controllers
     [ApiController]
     public class EmpleadosController : ControllerBase
     {
+        private readonly EmpleadoService _service;
+
+        public EmpleadosController(EmpleadoService service)
+        {
+            _service = service;
+        }
+
         private EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
-        [HttpGet("empleado")]
-        public Empleado seleccionarEmpleadoPorNombre(int id)
+        [HttpGet("ListaEmpleados")]
+        public List<EmpleadoDTO> seleccionarEmpleados()
         {
-            return empleadoDAO.seleccionarEmpleado(id);
+            return _service.seleccionarEmpleados();
         }
 
-        [HttpPut("empleado")]
-        public bool actualizarEmpleado([FromBody] Empleado empleado)
+        [HttpPut("ActualizarEmpleado")]
+        public IActionResult actualizarEmpleado([FromBody] Empleado empleado)
         {
-            return empleadoDAO.actualizar(
-                empleado.IdEmpleado,
-                empleado.Nombre,
-                empleado.Apellido,
-                empleado.Correo,
-                empleado.Telefono,
-                empleado.FechaIngreso,
-                empleado.IdTipo,
-                empleado.IdDepartamento,
-                empleado.IdTurno,
-                empleado.IdSucursal
-            );
+            var actualizado = _service.actualizarEmpleado(empleado);
+            
+
+            if (actualizado == true)
+            {
+                return Ok(new { exito = true, mensaje = "Empleado actualizado exitosamente." });
+            }
+            else
+            {
+                return BadRequest(new { exito = false, mensaje = "El empleado no fue actualizados" });
+            }
         }
 
-        [HttpPost("empleado")]
-        public bool insertarEmpleado([FromBody] Empleado empleado)
+        [HttpPost("InsertarEmpleado")]
+        public IActionResult insertarEmpleado([FromBody] EmpleadoDTO empleadoDTO)
         {
-            return empleadoDAO.insertar(              
-                empleado.Nombre,
-                empleado.Apellido,
-                empleado.Correo,
-                empleado.Telefono,
-                empleado.FechaIngreso,
-                empleado.IdTipo,
-                empleado.IdDepartamento,
-                empleado.IdTurno,
-                empleado.IdSucursal
-            );
-        }
+            var agregado = _service.insertarEmpleado(empleadoDTO);
 
-        [HttpDelete("empleado")]
+            if (agregado == true)
+            {
+                return Ok(new { exito = true, mensaje = "Empleado agregado exitosamente." });
+            }
+            else
+            {
+                return BadRequest(new { exito = false, mensaje = "El empleado no fue agregado" });
+            }
+        }
+        
+        [HttpDelete("EliminarEmpleado")]
         public bool eliminarEmpleado(int id)
         {
             return empleadoDAO.eliminar(id);

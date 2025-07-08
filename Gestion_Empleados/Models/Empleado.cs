@@ -11,9 +11,9 @@ public partial class Empleado
 
     public string Apellido { get; set; } = null!;
 
-    public string? Correo { get; set; }
+    public string Correo { get; set; }
 
-    public string? Telefono { get; set; }
+    public string Telefono { get; set; }
 
     public DateTime FechaIngreso { get; set; }
 
@@ -25,7 +25,7 @@ public partial class Empleado
 
     public int IdSucursal { get; set; }
 
-    public bool? Activo { get; set; }
+    public bool Activo { get; set; }
 
     public virtual ICollection<Asistencium>? Asistencia { get; set; } = new List<Asistencium>();
 

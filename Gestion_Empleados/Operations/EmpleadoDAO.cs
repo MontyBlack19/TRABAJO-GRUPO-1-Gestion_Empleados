@@ -25,22 +25,11 @@ namespace Gestion_Empleados.Operations
 
             return empleado;
         }
-        public bool insertar(string nombre, string apellido, string correo, string telefono, DateTime fechaIngreso, int idTipo, int idDepartamento, int idTurno, int idSucursal)
+        public bool insertar(Empleado empleado)
         {
             try
             {
-                Empleado empleado = new Empleado();
-
-                empleado.Nombre = nombre;
-                empleado.Apellido = apellido;
-                empleado.Correo = correo;
-                empleado.Telefono = telefono;
-                empleado.FechaIngreso = fechaIngreso;
-                empleado.IdTipo = idTipo;
-                empleado.IdDepartamento = idDepartamento;
-                empleado.IdTurno = idTurno;
-                empleado.IdSucursal = idSucursal;
-
+                empleado.Activo = true;
                 Contexto.Empleados.Add(empleado);
                 Contexto.SaveChanges();
 
@@ -51,31 +40,29 @@ namespace Gestion_Empleados.Operations
                 return false;
             }
         }
-        public bool actualizar(int idempleado, string nombre, string apellido, string correo, string telefono, DateTime fechaIngreso, int idTipo, int idDepartamento, int idTurno, int idSucursal)
+        public bool actualizar(Empleado empleado)
         {
             try
             {
-                var empleado = seleccionarEmpleado(idempleado);
-
-                if (empleado == null)
+                var existe = Contexto.Empleados.FirstOrDefault(e => e.IdEmpleado == empleado.IdEmpleado);
+                
+                if (existe == null)
                 {
                     return false;
                 }
                 else
                 {
-                    empleado.IdEmpleado = idempleado;
-                    empleado.Nombre = nombre;
-                    empleado.Apellido = apellido;
-                    empleado.Correo = correo;
-                    empleado.Telefono = telefono;
-                    empleado.FechaIngreso = fechaIngreso;
-                    empleado.IdTipo = idTipo;
-                    empleado.IdDepartamento = idDepartamento;
-                    empleado.IdTurno = idTurno;
-                    empleado.IdSucursal = idSucursal;
-
+                    existe.Nombre = empleado.Nombre;
+                    existe.Apellido = empleado.Apellido;
+                    existe.Correo = empleado.Correo;
+                    existe.Telefono = empleado.Telefono;
+                    existe.FechaIngreso = empleado.FechaIngreso;
+                    existe.IdTipo = empleado.IdTipo;
+                    existe.IdDepartamento = empleado.IdDepartamento;
+                    existe.IdTurno = empleado.IdTurno;
+                    existe.IdSucursal = empleado.IdSucursal;
+                    existe.Activo = empleado.Activo;
                     Contexto.SaveChanges();
-
                     return true;
                 }
             }
