@@ -28,9 +28,9 @@ namespace Web_App.Controllers
         }
 
         [HttpPut("ActualizarEmpleado")]
-        public IActionResult actualizarEmpleado([FromBody] Empleado empleado)
+        public IActionResult actualizarEmpleado([FromBody] EmpleadoDTO empleadoDTO)
         {
-            var actualizado = _service.actualizarEmpleado(empleado);
+            var actualizado = _service.actualizarEmpleado(empleadoDTO);
             
 
             if (actualizado == true)
@@ -59,9 +59,18 @@ namespace Web_App.Controllers
         }
         
         [HttpDelete("EliminarEmpleado")]
-        public bool eliminarEmpleado(int id)
+        public IActionResult eliminarEmpleado(int idEmpleado)
         {
-            return empleadoDAO.eliminar(id);
+            var eliminado = _service.eliminarEmpleado(idEmpleado);
+
+            if (eliminado == true)
+            {
+                return Ok(new { exito = true, mensaje = "Empleado eliminado exitosamente." });
+            }
+            else
+            {
+                return BadRequest(new { exito = false, mensaje = "El empleado no existe." });
+            }
         }
     }
 }

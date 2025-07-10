@@ -54,14 +54,31 @@ namespace WebAPI.Services
             
         }
 
-        public bool actualizarEmpleado(Empleado empleado)
+        public bool actualizarEmpleado(EmpleadoDTO empleadoDTO)
         {
-            var actualizado = _empleadoDAO.actualizar
-            (
-                empleado
-            );
+            var empleadoA = new Empleado
+            { 
+                    IdEmpleado = empleadoDTO.IdEmpleado,
+                    Nombre = empleadoDTO.Nombre,
+                    Apellido = empleadoDTO.Apellido,
+                    Correo = empleadoDTO.Correo,
+                    Telefono = empleadoDTO.Telefono,
+                    FechaIngreso = empleadoDTO.FechaIngreso,
+                    IdTipo = empleadoDTO.IdTipo,
+                    IdDepartamento = empleadoDTO.IdDepartamento,
+                    IdTurno = empleadoDTO.IdTurno,
+                    IdSucursal = empleadoDTO.IdSucursal
+            };
            
+            var actualizado = _empleadoDAO.actualizar(empleadoA);
+
             return actualizado;
+        }
+
+        public bool eliminarEmpleado(int idEmpleado)
+        {
+            var eliminado = _empleadoDAO.eliminar(idEmpleado);
+            return eliminado;
         }
     }
 }
